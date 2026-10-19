@@ -5,6 +5,18 @@ export default function Como() {
     <article className="space-y-5 leading-relaxed">
       <h1 className="text-2xl font-extrabold">Cómo funciona y qué no hace</h1>
 
+      <section><h2 className="text-lg font-bold">Lo que Tope nunca hará</h2>
+        <ol className="list-decimal pl-5">
+          <li>Ofrecerte un préstamo, una consolidación o un &ldquo;pre-aprobado&rdquo;, ni mandarte con quien preste.</li>
+          <li>Escribirte primero: no hay notificaciones ni recordatorios. Solo contesta cuando preguntas.</li>
+          <li>Escribir, agregar o cambiar tu regla por ti, ni calificarte.</li>
+          <li>Decir que sí cuando no está seguro.</li>
+          <li>Cobrar por venta, por préstamo o por recomendación.</li>
+        </ol></section>
+
+      <section><h2 className="text-lg font-bold">Qué pasa con tus capturas</h2>
+        <p>Se mandan a leer a un servidor, se leen en ese momento y se descartan. No se guardan, ni las lee una persona.</p></section>
+
       <section><h2 className="text-lg font-bold">Por qué existe</h2>
         <p>En México el crédito aparece en el botón de pagar, en quincenas, ofrecido por la misma empresa que te vende. Cada cuota se ve chica; la suma no. Nadie fuera del prestamista ve todas tus cuotas en el momento de decidir: la ley que permitiría juntar esos datos (artículo 76 de la Ley Fintech, 2018) todavía no tiene sus reglas para datos transaccionales. Por eso aquí los datos los traes tú.</p></section>
 
@@ -18,15 +30,6 @@ export default function Como() {
 
       <section><h2 className="text-lg font-bold">Qué se guarda</h2>
         <p>Tu regla y tus cuotas viven solo en el almacenamiento de este navegador, en este teléfono. No hay cuentas ni base de datos. La captura viaja al servidor solo para leerse y se descarta en la misma petición. &ldquo;Borrar todo&rdquo; (abajo en cada pantalla) lo elimina en un toque.</p></section>
-
-      <section><h2 className="text-lg font-bold">Lo que Tope nunca hará</h2>
-        <ol className="list-decimal pl-5">
-          <li>Ofrecerte un préstamo, una consolidación o un &ldquo;pre-aprobado&rdquo;, ni mandarte con quien preste.</li>
-          <li>Escribirte primero: no hay notificaciones ni recordatorios. Solo contesta cuando preguntas.</li>
-          <li>Escribir, agregar o cambiar tu regla por ti, ni calificarte.</li>
-          <li>Decir que sí cuando no está seguro.</li>
-          <li>Cobrar por venta, por préstamo o por recomendación.</li>
-        </ol></section>
 
       <section><h2 className="text-lg font-bold">Lo que todavía no está resuelto</h2>
         <ul className="list-disc pl-5">

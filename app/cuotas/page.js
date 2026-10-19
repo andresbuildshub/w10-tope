@@ -33,7 +33,7 @@ export default function Cuotas() {
         setAviso({ tipo: 'sim', texto: `${j.motivo || 'No pude leer la captura.'} Escríbela tú abajo: nada se inventa.` })
         setBorrador({ ...VACIA, origen: 'mano' })
       } else {
-        setAviso({ tipo: 'ia', texto: `Leído por IA (${j.modelo}). Lo amarillo no está seguro: revísalo antes de confirmar.` })
+        setAviso({ tipo: 'ia', texto: 'La captura ya se borró. Lo amarillo no está seguro: revísalo antes de confirmar.' })
         setBorrador(lineaDesdeLectura(j.lectura))
       }
     } catch (err) {
@@ -60,8 +60,9 @@ export default function Cuotas() {
 
       <section className="tarjeta">
         <p className="text-sm font-semibold uppercase text-neutral-600">Lo que ya pagas</p>
-        <p className="text-3xl font-extrabold">{pesos(v.actual)} <span className="text-base font-semibold">por quincena</span></p>
-        {regla ? <p>{v.pctActual}% de tu quincena. Tu tope: {regla.topePct}% ({pesos(v.limite)}).</p>
+        <p className="text-3xl font-extrabold">{pesos(v.actual)} <span className="text-base font-semibold">en tu quincena más cargada</span></p>
+        <p className="text-sm">(En promedio {pesos(v.promedio)}. Los pagos mensuales caen completos en una de tus dos quincenas, por eso Tope cuenta la más pesada.)</p>
+        {regla ? <p className={v.actual > v.limite ? 'font-bold text-no' : ''}>{v.pctActual}% de tu quincena. Tu tope: {regla.topePct}% ({pesos(v.limite)}).{v.actual > v.limite ? ' Ya te pasaste de tu tope en esa quincena.' : ` Te quedan ${pesos(v.limite - v.actual)}.`}</p>
           : <p><Link className="liga" href="/regla">Escribe tu regla</Link> para ver qué parte de tu quincena es.</p>}
         {e.lineas.some(l => !l.confirmada) && <p className="mt-1 font-semibold text-nose">Hay cuotas sin confirmar: no cuentan en la suma y Tope te va a contestar &ldquo;No sé&rdquo; hasta que las revises.</p>}
       </section>
@@ -71,8 +72,8 @@ export default function Cuotas() {
           <li key={l.id || i} className={`tarjeta ${l.confirmada ? '' : 'duda'}`}>
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-bold">{l.prestamista} {!l.confirmada && <span className="etiqueta et-duda">sin confirmar</span>}</p>
-                <p>{pesos(l.monto)} {FRECUENCIAS[l.frecuencia]?.nombre || '(frecuencia ?)'} → <b>{pesos(porQuincena(l.monto, l.frecuencia))} por quincena</b></p>
+                <p className="font-bold">{l.prestamista} {l.confirmada ? <span className="etiqueta et-ia">✓ confirmada</span> : <span className="etiqueta et-duda">⚠ sin confirmar · no cuenta</span>}</p>
+                <p>{pesos(l.monto)} {FRECUENCIAS[l.frecuencia]?.nombre || '(frecuencia ?)'} → <b>{pesos(porQuincena(l.monto, l.frecuencia, 'peor'))} en la quincena en que cae</b></p>
                 {l.pagosRestantes ? <p className="text-sm">Faltan {l.pagosRestantes} pagos (≈ {quincenasRestantes(l)} quincenas).</p> : null}
               </div>
               <div className="flex shrink-0 flex-col gap-1">
@@ -126,7 +127,7 @@ export default function Cuotas() {
                 guardar({ ...e, lineas: ls }); setBorrador(null); setAviso(null)
               } else agregar(true)
             }}>Confirmo estos datos</button>
-            {borrador.origen === 'captura' && borrador.editando === undefined && <button className="boton boton-sec" disabled={!borradorValido} onClick={() => agregar(false)}>Guardar sin confirmar</button>}
+            {borrador.origen === 'captura' && borrador.editando === undefined && <button className="boton boton-sec" disabled={!borradorValido} onClick={() => agregar(false)}>Guardar sin confirmar (no cuenta hasta que lo revises)</button>}
             <button className="liga" onClick={() => { setBorrador(null); setAviso(null) }}>Cancelar</button>
           </div>
         </section>

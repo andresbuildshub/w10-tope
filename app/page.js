@@ -22,7 +22,7 @@ export default function Inicio() {
           <li>Nunca te ofrece un préstamo ni te manda con nadie que preste.</li>
           <li>Nunca te escribe primero: no hay notificaciones ni recordatorios.</li>
           <li>Nunca inventa una regla por ti ni te califica.</li>
-          <li>Nunca guarda tus datos en un servidor: viven en este teléfono.</li>
+          <li>Nunca guarda tus datos en un servidor: tu regla y tus cuotas viven en este teléfono. Las capturas se mandan a leer y se borran en ese momento; nadie las guarda.</li>
           <li>Si no está seguro, no te dice que sí.</li>
         </ul>
       </section>

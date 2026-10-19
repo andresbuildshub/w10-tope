@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useEstado, pesos } from '../../lib/estado'
-import { FRECUENCIAS, reglaVigente, veredicto } from '../../lib/tope'
+import { FRECUENCIAS, reglaVigente, veredicto, proximasEnTerminar } from '../../lib/tope'
 
 export default function Alcanza() {
   const [e] = useEstado()
@@ -39,12 +39,12 @@ export default function Alcanza() {
         <button className="boton w-full" disabled={!(Number(o.monto) >= 1 && Number(o.monto) <= 200000)}>¿Me alcanza?</button>
       </form>
 
-      {v && <Respuesta v={v} regla={regla} pagos={Number(o.pagos) || null} monto={Number(o.monto)} />}
+      {v && <Respuesta v={v} regla={regla} pagos={Number(o.pagos) || null} monto={Number(o.monto)} lineas={e.lineas} />}
     </div>
   )
 }
 
-function Respuesta({ v, regla, pagos, monto }) {
+function Respuesta({ v, regla, pagos, monto, lineas }) {
   if (v.tipo === 'nose') return (
     <section role="status" className="v-nose rounded-2xl p-4">
       <p className="text-3xl font-extrabold">No sé.</p>
@@ -54,17 +54,20 @@ function Respuesta({ v, regla, pagos, monto }) {
     </section>
   )
   const no = v.tipo === 'no'
+  const terminan = no ? proximasEnTerminar(lineas) : []
   return (
-    <section role="status" className={`${no ? 'v-no' : 'v-si'} rounded-2xl p-4`}>
-      <p className="text-3xl font-extrabold">{no ? 'Tu regla dice NO.' : 'Tu regla lo permite.'}</p>
-      {regla.texto && <p className="cita mt-3 text-tinta">&ldquo;{regla.texto}&rdquo;<span className="block text-xs not-italic">— tú, cuando la escribiste</span></p>}
+    <section role="status" className={`${no ? 'v-no' : v.justo ? 'v-nose' : 'v-si'} rounded-2xl p-4`}>
+      <p className="text-3xl font-extrabold">{no ? 'Tu regla dice NO.' : v.justo ? 'Cabe, pero justo.' : 'Tu regla lo permite.'}</p>
+      <p className="mt-1 font-semibold text-tinta">{no ? `Con esta cuota pasarías tu tope de ${regla.topePct}% en tu quincena más cargada.` : `Con esta cuota quedas dentro de tu tope de ${regla.topePct}%.`}</p>
+      {regla.texto && <p className="cita mt-3 text-tinta">&ldquo;{regla.texto}&rdquo;<span className="block text-xs not-italic">— tú, cuando escribiste tu regla de {regla.topePct}%</span></p>}
       <dl className="mt-3 grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 text-tinta">
-        <dt>Ya pagas por quincena</dt><dd className="text-right font-semibold">{pesos(v.actual)} ({v.pctActual}%)</dd>
+        <dt>Ya pagas (quincena más cargada)</dt><dd className="text-right font-semibold">{pesos(v.actual)} ({v.pctActual}%)</dd>
         <dt>Con esta cuota</dt><dd className="text-right font-bold">{pesos(v.conOferta)} ({v.pctCon}%)</dd>
         <dt>Tu tope ({regla.topePct}% de {pesos(regla.quincena)})</dt><dd className="text-right font-semibold">{pesos(v.limite)}</dd>
       </dl>
       <p className="mt-3 font-bold">{no ? `Te pasarías por ${pesos(v.conOferta - v.limite)} cada quincena.` : `Te quedarían ${pesos(v.limite - v.conOferta)} antes de tu tope.`}</p>
       {pagos && <p className="mt-1 text-sm text-tinta">En total serían {pagos} pagos de {pesos(monto)}: {pesos(monto * pagos)}.</p>}
+      {terminan.length > 0 && <div className="mt-3 text-sm text-tinta"><p className="font-semibold">Lo que termina primero, según tus cuotas:</p><ul className="list-disc pl-5">{terminan.map(t => <li key={t.prestamista}>{t.prestamista}: en ≈{t.quincenas} quincena{t.quincenas > 1 ? 's' : ''} (libera {pesos(t.libera)})</li>)}</ul></div>}
       <p className="mt-3 text-xs text-tinta">Calculado con tu regla y tus cuotas confirmadas, sin IA. Tope no sabe si la compra vale la pena: eso lo decides tú.</p>
     </section>
   )

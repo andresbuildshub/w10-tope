@@ -13,12 +13,14 @@ test('per-quincena conversion', () => {
   assert.equal(porQuincena(100, 'diaria'), null)
 })
 
-test('verdict: no / permite / exactly at the cap is permite', () => {
-  const lineas = [L('Kueski', 800, 'quincenal'), L('Mercado Pago', 1500, 'mensual')] // 800 + 750 = 1550; limit 2375
-  assert.equal(veredicto({ regla, lineas, oferta: { monto: 825, frecuencia: 'quincenal' } }).tipo, 'permite') // 2375 exactly
-  assert.equal(veredicto({ regla, lineas, oferta: { monto: 826, frecuencia: 'quincenal' } }).tipo, 'no')
-  const v = veredicto({ regla, lineas, oferta: { monto: 500, frecuencia: 'quincenal' } })
-  assert.equal(v.actual, 1550); assert.equal(v.conOferta, 2050); assert.equal(v.limite, 2375); assert.equal(v.pctCon, 21.6)
+test('verdict uses the MOST LOADED quincena (monthly lands whole), exactly at the cap = permite', () => {
+  const lineas = [L('Kueski', 800, 'quincenal'), L('Mercado Pago', 1500, 'mensual')] // worst quincena = 800 + 1500 = 2300; limit 2375
+  assert.equal(veredicto({ regla, lineas, oferta: { monto: 75, frecuencia: 'quincenal' } }).tipo, 'permite')
+  assert.equal(veredicto({ regla, lineas, oferta: { monto: 76, frecuencia: 'quincenal' } }).tipo, 'no')
+  const v = veredicto({ regla, lineas, oferta: { monto: 50, frecuencia: 'quincenal' } })
+  assert.equal(v.actual, 2300); assert.equal(v.promedio, 1550); assert.equal(v.conOferta, 2350); assert.equal(v.justo, true)
+  assert.equal(veredicto({ regla: { ...regla, topePct: 40 }, lineas, oferta: { monto: 50, frecuencia: 'quincenal' } }).justo, false)
+  assert.equal(porQuincena(200, 'semanal', 'peor'), 600)
 })
 
 test('uncertain never becomes yes', () => {
@@ -37,6 +39,8 @@ test('looser rule waits for HIS delay; tighter applies now; zero delay applies n
   assert.equal(reglaVigente(e, t0 + 1000 + 48 * 3600 * 1000).topePct, 40)
   const e2 = guardarRegla(guardarRegla({}, regla, t0), { ...regla, topePct: 15 }, t0 + 1000)
   assert.equal(reglaVigente(e2, t0 + 2000).topePct, 15)
+  const e4 = guardarRegla(guardarRegla({}, regla, t0), { ...regla, quincena: 12000 }, t0 + 1000)
+  assert.equal(reglaVigente(e4, t0 + 2000).quincena, 9500, 'a higher quincena figure is loosening too')
   const e3 = guardarRegla(guardarRegla({}, { ...regla, retrasoH: 0 }, t0), { ...regla, retrasoH: 0, topePct: 60 }, t0 + 1)
   assert.equal(reglaVigente(e3, t0 + 2).topePct, 60)
 })
