@@ -27,7 +27,7 @@ export default function Regla() {
     const nuevoEstado = guardarRegla(e, nueva)
     guardar(nuevoEstado)
     setMsg(nuevoEstado.pendiente
-      ? `Tu regla nueva es más flexible, así que empieza el ${fecha(nuevoEstado.pendiente.aplicaDesde)} (tú elegiste esperar ${vigente.retrasoH} horas). Hasta entonces contesta tu regla actual`
+      ? `Tu regla nueva es más flexible, así que empieza el ${fecha(nuevoEstado.pendiente.aplicaDesde)} (tú elegiste esperar ${vigente.retrasoH} horas). Hasta entonces contesta tu regla actual.`
       : 'Listo. Desde ahora Tope contesta con esta regla.') + (choca ? ` Ojo: tu frase dice ${pcts[0]}% y tu número dice ${nueva.topePct}%. Tope contesta con el número; cambia tu frase para que digan lo mismo.` : '')
   }
 
@@ -61,6 +61,7 @@ export default function Regla() {
         <div>
           <label htmlFor="t">Tu regla, en tus palabras (opcional)</label>
           <textarea id="t" className="campo mt-1" rows="2" maxLength={200} placeholder="Con tus palabras. Es solo para que te la recuerde." value={f.texto} onChange={ev => setF({ ...f, texto: ev.target.value })} />
+          {(() => { const ps = (f.texto.match(/(\d{1,2})\s*%/g) || []).map(x => parseInt(x)); return ps.length && okP && !ps.includes(p) ? <p className="mt-1 text-sm font-semibold text-no">Tu frase dice {ps[0]}% y tu número dice {p}%. Haz que digan lo mismo.</p> : null })()}
           <p className="mt-1 text-xs text-neutral-600">{f.texto.length}/200 · Tope te la cita tal cual, pero contesta con el número de arriba: que digan lo mismo.</p>
         </div>
         <fieldset>

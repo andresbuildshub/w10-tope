@@ -1,3 +1,4 @@
+import Link from 'next/link'
 export const metadata = { title: 'Cómo funciona · Tope' }
 
 export default function Como() {
@@ -38,6 +39,9 @@ export default function Como() {
           <li><b>Las 11 de la noche.</b> Tope no te protege de ti mismo si no le preguntas. Es a propósito: una app que te vigila la pantalla o te manda avisos para &ldquo;ayudarte&rdquo; es exactamente lo que no queremos ser.</li>
           <li><b>Formatos.</b> Cada app muestra sus cuotas distinto; la lectura puede fallar. Por eso nada cuenta sin tu confirmación.</li>
         </ul></section>
+
+      <section><h2 className="text-lg font-bold">¿Está funcionando?</h2>
+        <p>Opcional: <Link className="liga" href="/metrica">compara los totales de dos reportes tuyos</Link>. Aquí nunca subes nada; solo escribes dos números.</p></section>
 
       <p className="text-sm">Proyecto de clase, Crystal Ball Studio (semana 10, &ldquo;Isle of Happiness&rdquo;). Las capturas de demostración son inventadas y están marcadas así.</p>
     </article>

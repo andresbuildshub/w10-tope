@@ -67,3 +67,18 @@ test('Buró delta and stack end', () => {
   assert.equal(deltaBuro({ saldo: '' }, { saldo: 1 }), null)
   assert.equal(quincenasRestantes({ frecuencia: 'mensual', pagosRestantes: 6 }), 12)
 })
+
+test('cabriaEn: when the offer would fit, from his own lines only', async () => {
+  const { cabriaEn } = await import('../lib/tope.js')
+  const r30 = { quincena: 9500, topePct: 30 }
+  const ls = [
+    { prestamista: 'Kueski', monto: 812.5, frecuencia: 'quincenal', pagosRestantes: 4, confirmada: true },
+    { prestamista: 'Aplazo', monto: 649, frecuencia: 'quincenal', pagosRestantes: 3, confirmada: true },
+    { prestamista: 'Mercado Pago', monto: 699, frecuencia: 'mensual', pagosRestantes: 7, confirmada: true },
+    { prestamista: 'Coppel', monto: 415, frecuencia: 'quincenal', pagosRestantes: null, confirmada: true },
+  ]
+  const v = veredicto({ regla: r30, lineas: ls, oferta: { monto: 650, frecuencia: 'quincenal' } })
+  assert.equal(v.tipo, 'no'); assert.deepEqual(cabriaEn(v, ls), { quincenas: 3, cuando: 'Aplazo' })
+  const big = veredicto({ regla: r30, lineas: ls, oferta: { monto: 3000, frecuencia: 'quincenal' } })
+  assert.equal(cabriaEn(big, ls), null)
+})

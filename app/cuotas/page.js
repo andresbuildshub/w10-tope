@@ -61,7 +61,7 @@ export default function Cuotas() {
       <section className="tarjeta">
         <p className="text-sm font-semibold uppercase text-neutral-600">Lo que ya pagas</p>
         <p className="text-3xl font-extrabold">{pesos(v.actual)} <span className="text-base font-semibold">en tu quincena más cargada</span></p>
-        <p className="text-sm">(En promedio {pesos(v.promedio)}. Los pagos mensuales caen completos en una de tus dos quincenas, por eso Tope cuenta la más pesada.)</p>
+        <p className="text-sm">Contamos lo peor: los pagos mensuales completos en la misma quincena (en promedio serían {pesos(v.promedio)}).</p>
         {regla ? <p className={v.actual > v.limite ? 'font-bold text-no' : ''}>{v.pctActual}% de tu quincena. Tu tope: {regla.topePct}% ({pesos(v.limite)}).{v.actual > v.limite ? ' Ya te pasaste de tu tope en esa quincena.' : ` Te quedan ${pesos(v.limite - v.actual)} antes de tu tope.`}</p>
           : <p><Link className="liga" href="/regla">Escribe tu regla</Link> para ver qué parte de tu quincena es.</p>}
         {e.lineas.some(l => !l.confirmada) && <p className="mt-1 font-semibold text-nose">Hay cuotas sin confirmar: no cuentan en la suma y Tope te va a contestar &ldquo;No sé&rdquo; hasta que las revises.</p>}

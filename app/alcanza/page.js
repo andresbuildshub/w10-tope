@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useEstado, pesos } from '../../lib/estado'
-import { FRECUENCIAS, reglaVigente, veredicto, proximasEnTerminar } from '../../lib/tope'
+import { FRECUENCIAS, reglaVigente, veredicto, cabriaEn } from '../../lib/tope'
 
 export default function Alcanza() {
   const [e] = useEstado()
@@ -47,16 +47,17 @@ export default function Alcanza() {
 function Respuesta({ v, regla, pagos, monto, lineas }) {
   if (v.tipo === 'nose') return (
     <section role="status" className="v-nose rounded-2xl p-4">
-      <p className="text-3xl font-extrabold">No sé.</p>
+      <p className="text-3xl font-extrabold">? No sé.</p>
       <p className="mt-1 text-tinta">No te voy a decir que sí sin estar seguro. Me falta:</p>
       <ul className="mt-1 list-disc pl-5 text-tinta">{v.faltan.map(f => <li key={f}>{f}</li>)}</ul>
-      <p className="mt-2 text-tinta"><Link className="liga" href={v.faltan.some(f => f.startsWith('tu regla')) ? '/regla' : '/cuotas'}>Revísalo aquí →</Link></p>
+      <p className="mt-2 text-tinta">{v.faltan.some(f => f.startsWith('tu regla')) ? <Link className="liga" href="/regla">Escribe tu regla (1 min) →</Link> : <Link className="liga" href="/cuotas">Revisa tus cuotas →</Link>}</p>
     </section>
   )
   const no = v.tipo === 'no'
-  const terminan = no ? proximasEnTerminar(lineas) : []
+  const cabria = no ? cabriaEn(v, lineas) : null
+  const contando = lineas.filter(l => l.confirmada).map(l => l.prestamista)
   return (
-    <section role="status" className={`${no ? 'v-no' : v.justo ? 'v-nose' : 'v-si'} rounded-2xl p-4`}>
+    <section role="status" className={`${no ? 'v-no' : v.justo ? 'v-justo' : 'v-si'} rounded-2xl p-4`}>
       <p className="text-3xl font-extrabold">{no ? 'Tu regla dice NO.' : v.justo ? 'Cabe, pero justo.' : 'Tu regla lo permite.'}</p>
       <p className="mt-1 font-semibold text-tinta">{no ? `Con esta cuota pasarías tu tope de ${regla.topePct}% en tu quincena más cargada.` : `Con esta cuota quedas dentro de tu tope de ${regla.topePct}%.`}</p>
       {regla.texto && <p className="cita mt-3 text-tinta">&ldquo;{regla.texto}&rdquo;<span className="block text-xs not-italic">— tú, cuando escribiste tu regla de {regla.topePct}%</span></p>}
@@ -65,11 +66,12 @@ function Respuesta({ v, regla, pagos, monto, lineas }) {
         <dt>Con esta cuota</dt><dd className="text-right font-bold">{pesos(v.conOferta)} ({v.pctCon}%)</dd>
         <dt>Tu tope ({regla.topePct}% de {pesos(regla.quincena)})</dt><dd className="text-right font-semibold">{pesos(v.limite)}</dd>
       </dl>
-      <p className="mt-3 font-bold">{no ? `Te pasarías por ${pesos(v.conOferta - v.limite)} cada quincena.` : `Te quedarían ${pesos(v.limite - v.conOferta)} antes de tu tope.`}</p>
+      <p className="mt-3 font-bold">{no ? `Te pasarías por ${pesos(v.conOferta - v.limite)} en tu quincena más cargada.` : `Te quedarían ${pesos(v.limite - v.conOferta)} antes de tu tope.`}</p>
       {pagos && <p className="mt-1 text-sm text-tinta">En total serían {pagos} pagos de {pesos(monto)}: {pesos(monto * pagos)}.</p>}
-      {terminan.length > 0 && <div className="mt-3 text-sm text-tinta"><p className="font-semibold">Lo que termina primero, según tus cuotas:</p><ul className="list-disc pl-5">{terminan.map(t => <li key={t.prestamista}>{t.prestamista}: termina en ≈{t.quincenas} quincena{t.quincenas > 1 ? 's' : ''}</li>)}</ul></div>}
+      {no && <p className="mt-3 text-sm text-tinta">{cabria ? `Con tus cuotas de hoy, esta cuota cabría en tu regla cuando termine ${cabria.cuando} (≈${cabria.quincenas} quincena${cabria.quincenas > 1 ? 's' : ''}), si no agregas nada más.` : 'Con tus cuotas de hoy, esta cuota no cabe en tu regla aunque terminen las que ya tienes con fecha.'}</p>}
       {!no && <p className="mt-2 text-xs text-tinta">{v.justo ? 'Amarillo = te quedaría menos del 10% de tu tope.' : 'Verde = te queda más del 10% de tu tope.'}</p>}
-      <p className="mt-3 text-xs text-tinta">Calculado con tu regla y tus cuotas confirmadas, sin IA. Tope no sabe si la compra vale la pena: eso lo decides tú.</p>
+      <p className="mt-3 text-xs text-tinta">Contando: {contando.join(', ') || 'ninguna cuota'}. Contamos tu peor quincena: los pagos mensuales completos.</p>
+      <p className="mt-1 text-xs text-tinta">Calculado con tu regla y tus cuotas confirmadas, sin IA. Tope no sabe si la compra vale la pena: eso lo decides tú.</p>
     </section>
   )
 }

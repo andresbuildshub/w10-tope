@@ -16,7 +16,7 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
   ok(await p.getByText('Lo que Tope nunca hace').isVisible(), 'home shows the never-list'); await shot('01-inicio')
 
   await p.goto(URL + '/alcanza'); await p.fill('#m', '650'); await p.click('button:has-text("¿Me alcanza?")')
-  ok(await p.getByText('No sé.').isVisible(), 'no rule yet → NO SÉ, not a yes'); await shot('02-alcanza-sin-regla')
+  ok(await p.getByText('? No sé.').isVisible(), 'no rule yet → NO SÉ, not a yes'); await shot('02-alcanza-sin-regla')
 
   await p.goto(URL + '/regla'); await shot('03-regla-vacia')
   await p.fill('#q', '9500'); await p.fill('#p', '30')
@@ -40,9 +40,9 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
 
   await p.goto(URL + '/alcanza'); await p.fill('#m', '650'); await p.fill('#p', '5'); await p.click('button:has-text("¿Me alcanza?")')
   ok(await p.getByText('Tu regla dice NO.').isVisible(), '650 on top of 2,575.50 vs 2,850 → NO')
-  ok(await p.getByText('Te pasarías por $375.50 cada quincena.').isVisible(), 'shows the overshoot in his numbers')
+  ok(await p.getByText('Te pasarías por $375.50 en tu quincena más cargada.').isVisible(), 'shows the overshoot in his numbers')
   ok(await p.locator('.cita').innerText().then(t => t.includes('aunque la oferta')), 'quotes HIS rule text')
-  ok(await p.getByText('Lo que termina primero').isVisible(), 'NO shows which of his lines end first (facts, no advice)')
+  ok(await p.getByText('cabría en tu regla cuando termine').isVisible(), 'NO says when it would fit, from his own lines (facts, no advice)')
   const verdicto = await p.locator('[role=status]').innerText()
   ok(!/préstamo|consolida|aprobado|solicita/i.test(verdicto), 'verdict contains no credit offer'); await shot('07-alcanza-no')
   await p.fill('#m', '140'); await p.click('button:has-text("¿Me alcanza?")')
@@ -58,7 +58,7 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
 
   await p.evaluate(() => { const s = JSON.parse(localStorage.getItem('tope.v1')); s.lineas.push({ prestamista: 'Nelo', monto: 300, frecuencia: 'quincenal', confirmada: false }); localStorage.setItem('tope.v1', JSON.stringify(s)) })
   await p.goto(URL + '/alcanza'); await p.fill('#m', '10'); await p.click('button:has-text("¿Me alcanza?")')
-  ok(await p.getByText('No sé.').isVisible() && await p.getByText('Nelo').isVisible(), 'unconfirmed line → NO SÉ naming it')
+  ok(await p.getByText('? No sé.').isVisible() && await p.getByText('Nelo').isVisible(), 'unconfirmed line → NO SÉ naming it')
 
   for (const ruta of ['/', '/regla', '/cuotas', '/alcanza', '/metrica', '/como']) { await p.goto(URL + ruta); ok((await externos()).length === 0, `${ruta}: no external links (no lender, no store)`) }
   await p.goto(URL + '/metrica'); await p.fill('#sa', '18000'); await p.fill('#ca', '5'); await p.fill('#sb', '15500'); await p.fill('#cb', '4')

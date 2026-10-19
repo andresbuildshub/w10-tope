@@ -10,7 +10,8 @@ export default function Metrica() {
   const d = deltaBuro(b.a, b.b)
   return (
     <div className="space-y-5">
-      <h1 className="text-2xl font-extrabold">Mi métrica</h1>
+      <h1 className="text-2xl font-extrabold">¿Está funcionando?</h1>
+      <p className="tarjeta font-semibold">Opcional. Aquí no subes nada ni se conecta a nada: solo escribes dos totales que tú ya tengas.</p>
       <p>La única forma en que Tope se mide: si lo que debes baja entre dos reportes de tu Buró de Crédito. No cuenta cuántas veces abres la app ni cuántas veces dijiste que no.</p>
       <p className="text-sm">Escribe solo los totales de cada reporte. No subas el PDF: no lo necesitamos y no lo guardamos.</p>
       {['a', 'b'].map((k, i) => (
