@@ -41,11 +41,19 @@ test('looser rule waits for HIS delay; tighter applies now; zero delay applies n
   assert.equal(reglaVigente(e3, t0 + 2).topePct, 60)
 })
 
-test('vision output filter: whitelist, ranges, seguro must be explicit', () => {
-  const r = filtrarLectura('ok ```{"prestamista":"Kueski Pay","monto":812.5,"frecuencia":"quincenal","pagosRestantes":3,"seguro":{"prestamista":true,"monto":true,"frecuencia":false,"pagosRestantes":true},"extra":"pre-aprobado"}```')
-  assert.equal(r.prestamista.valor, 'Kueski Pay'); assert.equal(r.frecuencia.seguro, false); assert.equal(r.extra, undefined)
-  const l = lineaDesdeLectura(r); assert.equal(l.confirmada, false); assert.deepEqual(l.dudosos, ['frecuencia'])
-  assert.equal(filtrarLectura('{"monto":999999,"seguro":{"monto":true}}'), null)
+test('vision filter: whitelist, ranges, and "seguro" decided by quoted evidence, not by the model', () => {
+  const r = filtrarLectura('ok ```{"prestamista":"Kueski Pay","monto":812.5,"frecuencia":"quincenal","pagosRestantes":4,"evidencia":{"prestamista":"Kueski Pay","monto":"$812.50","frecuencia":"Pagas cada quincena","pagosRestantes":"Te faltan 4 pagos"},"extra":"pre-aprobado"}```')
+  assert.equal(r.prestamista.valor, 'Kueski Pay'); assert.equal(r.extra, undefined)
+  assert.ok(['prestamista', 'monto', 'frecuencia', 'pagosRestantes'].every(k => r[k].seguro))
+  // "Cuota 5 de 12" does not say how many are LEFT → not seguro, whatever the model believes
+  const mp = filtrarLectura('{"prestamista":"Mercado Pago","monto":699,"frecuencia":"mensual","pagosRestantes":7,"evidencia":{"prestamista":"Mercado Pago","monto":"$699.00 / mes","frecuencia":"$699.00 / mes","pagosRestantes":"Cuota 5 de 12"}}')
+  assert.equal(mp.frecuencia.seguro, true); assert.equal(mp.pagosRestantes.seguro, false)
+  const l = lineaDesdeLectura(mp); assert.equal(l.confirmada, true); assert.deepEqual(l.dudosos, ['pagosRestantes'])
+  const sinMonto = lineaDesdeLectura(filtrarLectura('{"prestamista":"X","monto":800,"frecuencia":"quincenal","evidencia":{"monto":"$812.50","frecuencia":"cada quincena"}}'))
+  assert.equal(sinMonto.confirmada, false); assert.ok(sinMonto.dudosos.includes('monto'))
+  // evidence that doesn't contain the number → not seguro
+  assert.equal(filtrarLectura('{"prestamista":"X","monto":800,"evidencia":{"monto":"$812.50"}}').monto.seguro, false)
+  assert.equal(filtrarLectura('{"monto":999999,"evidencia":{"monto":"999999"}}'), null)
   assert.equal(filtrarLectura('no json here'), null)
   assert.equal(filtrarLectura('{"prestamista":"X","monto":50,"frecuencia":"anual","pagosRestantes":200}').frecuencia.valor, null)
 })
