@@ -12,7 +12,7 @@
 ✓ 650 on top of 2,575.50 vs 2,850 → NO
 ✓ shows the overshoot in his numbers
 ✓ quotes HIS rule text
-✓ NO shows which of his lines end first (facts, no advice)
+✓ NO says when it would fit, from his own lines (facts, no advice)
 ✓ verdict contains no credit offer
 ✓ 140 → fits with $134.50 left (<10%) → amber "justo", not green
 ✓ Coppel paid off, 50 → green permite (2,210.50 vs 2,850, margin > 10%)
