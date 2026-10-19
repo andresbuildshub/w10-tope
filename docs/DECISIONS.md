@@ -2,11 +2,13 @@
 
 > Session close ritual, every session: one line per decision with the why, tomorrow's first move at the top, commit, push.
 
-**Tomorrow's first move:** when the T4 Blueprint exists, re-check the packet's "Conditions → build" table against its conditions (esp. the shadow clause wording); then decide whether `/regla` should come after `/cuotas` in the nav too (persona r3: blind % pick).
+**Tomorrow's first move:** decide whether `/regla` should come after `/cuotas` in the nav too (persona r3: blind % pick); if Fernando's real stacker interviews happen, rewrite home copy in their words.
 
 ---
 
 <!-- newest first: YYYY-MM-DD — decision — why -->
+2026-10-18 — Blueprint conditions pass: Tope honors all 6 T4 conditions (table in PACKET). Kept optional screenshot reading against the team's "no screenshots in v1" (my recorded dissent); blurred-image test 15/16, 0 wrong-and-sure, so Nicolás's underestimation didn't reproduce on my images. Dissent stays open.
+2026-10-18 — AI SDK deprecation: the image part switched to `{ type: 'file', data, mediaType }`; vision re-run 15/16, unchanged.
 2026-10-18 — Persona r3 REJECTED fixes, kept as dissent: (a) "la mayoría elige 20–35%" hint, (b) preselect 48 h, (c) make Borrar todo keep the cooldown — (a)(b) = Tope writing his rule for him (Charter never-list #3); (c) one-tap deletion is condition 2 and outranks the cooldown; stated honestly on /como instead.
 2026-10-18 — Persona r3 fixes: overshoot stated "en tu quincena más cargada" (not "cada quincena", which was false); "cabría cuando termine X" computed from HIS lines only; "Contando:" list on every verdict; NO SÉ gray-dashed vs "justo" amber; metric moved out of the global footer (read as loan-app).
 2026-10-18 — Persona r2 fixes: no "Buró" in nav; plain "viaja a una IA de Google y se borra" before upload; "save unconfirmed" demoted to a text link; "antes de tu tope"; green only with >10% margin, threshold shown; text/number mismatch warning; cuotas before rule on home.

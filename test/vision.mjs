@@ -1,5 +1,6 @@
 // Vision accuracy log: the 4 invented demo screenshots vs the truth I wrote into them.
-// Run: vercel env pull .env.local && set -a && source .env.local && node test/vision.mjs [--raw]
+// Run: vercel env pull .env.local && set -a && source .env.local && node test/vision.mjs [--raw] [--dir path/to/pngs]
+// --dir: same truth, different images (e.g. blurred copies — Nicolás's T4 finding: blur underestimates debt)
 import { generateText } from 'ai'
 import fs from 'node:fs'
 import { MODELO, SISTEMA } from '../lib/leer.js'
@@ -11,11 +12,12 @@ const VERDAD = {
   mercadopago: { prestamista: 'Mercado Pago', monto: 699, frecuencia: 'mensual', pagosRestantes: 8 }, // "Cuota 5 de 12": ambiguous on purpose (7 or 8)
   coppel: { prestamista: 'Coppel', monto: 415, frecuencia: 'quincenal', pagosRestantes: null }, // count not shown: must not be "seguro"
 }
+const iDir = process.argv.indexOf('--dir'), DIR = iDir > 0 ? process.argv[iDir + 1] : 'public/demo'
 let malSeguro = 0, bien = 0, total = 0
 for (const [n, v] of Object.entries(VERDAD)) {
-  const bytes = new Uint8Array(fs.readFileSync(`public/demo/${n}.png`))
+  const bytes = new Uint8Array(fs.readFileSync(`${DIR}/${n}.png`))
   const { text } = await generateText({ model: MODELO, system: SISTEMA, temperature: 0, maxOutputTokens: 200,
-    messages: [{ role: 'user', content: [{ type: 'text', text: 'Lee esta captura y responde solo el JSON.' }, { type: 'image', image: bytes, mediaType: 'image/png' }] }] })
+    messages: [{ role: 'user', content: [{ type: 'text', text: 'Lee esta captura y responde solo el JSON.' }, { type: 'file', data: bytes, mediaType: 'image/png' }] }] })
   if (process.argv.includes('--raw')) console.log(n, 'RAW:', text.replace(/\s+/g, ' '))
   const l = filtrarLectura(text)
   for (const k of Object.keys(v)) {

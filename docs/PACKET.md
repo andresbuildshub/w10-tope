@@ -1,7 +1,7 @@
 # Packet — w10-tope · "Tope: ¿me alcanza, según mi regla?"
 
 > Written BEFORE the code (course discipline). Week 10 · Chapter 9 "Isle of Happiness" · T4 · ADVERSARY lens · Andrés Álvarez Morphy Namnum.
-> Built from the vacuum my brief **failed to kill** (Debt guardrail, conditional survivor) and its conditions. When the T4 Blueprint exists, the "Conditions → build" table gets re-checked against it.
+> Built from the vacuum my brief **failed to kill** (Debt guardrail, conditional survivor) and its conditions. **Update after the T4 session (same night):** the team's PRIMARY VACUUM = Debt guardrail ("PAUSA MX"), and my declaration in the Blueprint = Tope. The conditions table below is re-checked against the Blueprint's 6 conditions (section "Blueprint conditions pass").
 
 ## The problem, in my words
 
@@ -111,6 +111,19 @@ From my brief (section 4); re-check against the T4 Blueprint when it exists.
 | 4 | **Uncertain = "No sé, revisa"**, never a false yes | Any *no seguro* field blocks counting until confirmed; `/alcanza` returns NO SÉ if any line is unconfirmed |
 | 5 | **Metric not engagement:** Buró delta, never time-in-app or count of "no"s | `/metrica` computes the delta with caveats; no analytics, no counters of answers |
 | Shadow | **PULL-ONLY, HIS RULE:** never starts a conversation, never writes a rule, honors his own delay | No notification API used (Permissions-Policy blocks it); rule text is his; looser rule waits for his delay, tighter applies now |
+
+## Blueprint conditions pass (T4 Blueprint, 2026-10-18)
+
+| Blueprint condition | Tope | Evidence |
+|---|---|---|
+| 1 · Payer never earns on the answer | ✅ No links out, no affiliate, no pricing screen; /como states the payer may never be a seller or lender | E2E: 0 external links on all 6 pages |
+| 2 · No credit is ever shown | ✅ No component can render an offer | E2E: verdict text has no préstamo/consolida/aprobado/solicita |
+| 3 · User's data, user's device | ✅ localStorage only; screenshot discarded in-request; "Borrar todo" on every page | E2E: Borrar todo empties storage; no DB in repo |
+| 4 · Uncertain = "No sé, revisa" | ✅ Unconfirmed line or missing data → NO SÉ; verdict on the **most loaded quincena** (persona r1 caught averaging as a false yes) | 7 unit tests; E2E "unconfirmed line → NO SÉ naming it" |
+| 5 · SHADOW CLAUSE — pull-only, his rule | ✅ No notifications (blocked in headers), no rule suggested, no preselected delay, his delay for loosening (raising the quincena counts), never scores or counts "no"s | E2E header check + pending-rule checks |
+| 6 · Show the math, no LLM decides | ✅ Deterministic `lib/tope.js`; verdict lists "Contando: …" and every number | Unit tests; /como |
+
+**Dissent kept from the Blueprint (screenshots in v1):** Nicolás held that blurry screenshots underestimate debt. Tope keeps optional vision with three guards: certainty is rule-checked against the quoted text, only amount + frequency can gate the verdict, and nothing counts until he confirms it. Test on my 4 invented screenshots: **15/16 correct, 0 wrong-and-marked-sure**. On **heavily blurred** copies (downscaled to 150 px and back): **also 15/16, 0 wrong-and-sure**; the only miss was payments-left on Mercado Pago (read 12, flagged for review). I could **not** reproduce the underestimation on my images, and Nicolás's images were different, so the dissent stays open. Typing by hand works identically.
 
 ## Dragon stack (multiplies, doesn't add)
 

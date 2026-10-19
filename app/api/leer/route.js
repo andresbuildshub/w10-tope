@@ -30,7 +30,7 @@ export async function POST(req) {
       model: MODELO, system: SISTEMA, temperature: 0, maxOutputTokens: 200,
       messages: [{ role: 'user', content: [
         { type: 'text', text: 'Lee esta captura y responde solo el JSON.' },
-        { type: 'image', image: bytes, mediaType: archivo.type },
+        { type: 'file', data: bytes, mediaType: archivo.type },
       ] }],
     })
     const lectura = filtrarLectura(text)

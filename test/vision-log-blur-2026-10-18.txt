@@ -1,0 +1,25 @@
+(node:12377) Warning: AI SDK Warning System: To turn off warning logging, set the AI_SDK_LOG_WARNINGS global to false.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12377) [AISDK_DEP_IMAGE_CONTENT_PART] DeprecationWarning: AI SDK Warning: Deprecated: ""image" content part". The "image" content part type is deprecated. Use a "file" part with mediaType: 'image' (or a more specific image/* subtype) instead.
+kueski RAW: ```json {"prestamista": "Kueski Pay", "monto": 812.50, "frecuencia": "quincenal", "pagosRestantes": 4, "evidencia": {"prestamista": "Kueski Pay", "monto": "$812.50", "frecuencia": "Pagos cada quincena", "pagosRestantes": "4 pagos"}} ```
+kueski       prestamista     verdad=Kueski Pay   leído=Kueski Pay   seguro=sí ✓
+kueski       monto           verdad=812.5        leído=812.5        seguro=sí ✓
+kueski       frecuencia      verdad=quincenal    leído=quincenal    seguro=sí ✓
+kueski       pagosRestantes  verdad=4            leído=4            seguro=no ✓
+aplazo RAW: ```json {"prestamista": "Aplazo", "monto": 649.00, "frecuencia": "quincenal", "pagosRestantes": 3, "evidencia": {"prestamista": "Aplazo", "monto": "$649.00", "frecuencia": "cada quincena", "pagosRestantes": "Pagos restantes 3"}} ```
+aplazo       prestamista     verdad=Aplazo       leído=Aplazo       seguro=sí ✓
+aplazo       monto           verdad=649          leído=649          seguro=sí ✓
+aplazo       frecuencia      verdad=quincenal    leído=quincenal    seguro=sí ✓
+aplazo       pagosRestantes  verdad=3            leído=3            seguro=sí ✓
+mercadopago RAW: ```json {"prestamista": "Mercado Pago", "monto": 699.00, "frecuencia": "mensual", "pagosRestantes": 12, "evidencia": {"prestamista": "Mercado Pago", "monto": "$699.00 / mes", "frecuencia": "/ mes", "pagosRestantes": "12"}} ```
+mercadopago  prestamista     verdad=Mercado Pago leído=Mercado Pago seguro=sí ✓
+mercadopago  monto           verdad=699          leído=699          seguro=sí ✓
+mercadopago  frecuencia      verdad=mensual      leído=mensual      seguro=sí ✓
+mercadopago  pagosRestantes  verdad=8            leído=12           seguro=no ✗
+coppel RAW: ```json {"prestamista": "Coppel", "monto": 415.00, "frecuencia": "quincenal", "pagosRestantes": null, "evidencia": {"prestamista": "Coppel", "monto": "Abono quincenal mínimo $415.00", "frecuencia": "quincenal", "pagosRestantes": null}} ```
+coppel       prestamista     verdad=Coppel       leído=Coppel       seguro=sí ✓
+coppel       monto           verdad=415          leído=415          seguro=sí ✓
+coppel       frecuencia      verdad=quincenal    leído=quincenal    seguro=sí ✓
+coppel       pagosRestantes  verdad=null         leído=null         seguro=no ✓
+
+15/16 campos correctos · 0 errores marcados como "seguro" (el riesgo de un sí falso)
