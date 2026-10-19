@@ -1,0 +1,31 @@
+✓ header blocks notifications (pull-only enforced)
+✓ home shows the never-list
+✓ no rule yet → NO SÉ, not a yes
+✓ save blocked until he picks his own delay (nothing preselected)
+✓ rule saved
+✓ Kueski Pay: read by real vision model
+✓ Aplazo: read by real vision model
+✓ Mercado Pago: read by real vision model
+✓ Mercado Pago "5 de 12": payments-left flagged for review
+✓ Coppel: read by real vision model
+✓ most-loaded quincena = $2,575.50 (monthly MP lands whole) (got: $2,575.50 en tu quincena más cargada)
+✓ 650 on top of 2,575.50 vs 2,850 → NO
+✓ shows the overshoot in his numbers
+✓ quotes HIS rule text
+✓ NO shows which of his lines end first (facts, no advice)
+✓ verdict contains no credit offer
+✓ 140 → fits with $134.50 left (<10%) → amber "justo", not green
+✓ Coppel paid off, 50 → green permite (2,210.50 vs 2,850, margin > 10%)
+✓ loosening waits for his 48 h
+✓ pending 40% rule does not answer yet: 700 still NO under 30% (would fit under 40%)
+✓ unconfirmed line → NO SÉ naming it
+✓ /: no external links (no lender, no store)
+✓ /regla: no external links (no lender, no store)
+✓ /cuotas: no external links (no lender, no store)
+✓ /alcanza: no external links (no lender, no store)
+✓ /metrica: no external links (no lender, no store)
+✓ /como: no external links (no lender, no store)
+✓ Buró delta computed
+✓ Borrar todo empties the phone
+
+29/29 checks passed

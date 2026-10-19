@@ -53,8 +53,8 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
 
   await p.goto(URL + '/regla'); await p.waitForSelector('text=Tu regla de hoy'); await p.fill('#p', '40'); await p.click('button:has-text("Guardar mi regla")')
   ok(await p.getByText('es más flexible').isVisible(), 'loosening waits for his 48 h'); await shot('09-regla-pendiente')
-  await p.goto(URL + '/alcanza'); await p.fill('#m', '650'); await p.click('button:has-text("¿Me alcanza?")')
-  ok(await p.getByText('Tu regla dice NO.').isVisible(), 'pending looser rule does not answer yet')
+  await p.goto(URL + '/alcanza'); await p.fill('#m', '700'); await p.click('button:has-text("¿Me alcanza?")')
+  ok(await p.getByText('Tu regla dice NO.').isVisible(), 'pending 40% rule does not answer yet: 700 still NO under 30% (would fit under 40%)')
 
   await p.evaluate(() => { const s = JSON.parse(localStorage.getItem('tope.v1')); s.lineas.push({ prestamista: 'Nelo', monto: 300, frecuencia: 'quincenal', confirmada: false }); localStorage.setItem('tope.v1', JSON.stringify(s)) })
   await p.goto(URL + '/alcanza'); await p.fill('#m', '10'); await p.click('button:has-text("¿Me alcanza?")')
