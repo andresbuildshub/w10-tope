@@ -35,7 +35,7 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
     if (d === 'Mercado Pago') ok(await p.locator('#pagosRestantes.duda').count() === 1, 'Mercado Pago "5 de 12": payments-left flagged for review')
     await p.click('button:has-text("Confirmo estos datos")')
   }
-  const total = await p.locator('text=por quincena').first().locator('..').innerText()
+  const total = await p.locator('text=en tu quincena más cargada').first().locator('..').innerText()
   ok(/2,575\.50/.test(total), `most-loaded quincena = $2,575.50 (monthly MP lands whole) (got: ${total.replace(/\s+/g, ' ').slice(0, 40)})`); await shot('06-cuotas-lista')
 
   await p.goto(URL + '/alcanza'); await p.fill('#m', '650'); await p.fill('#p', '5'); await p.click('button:has-text("¿Me alcanza?")')
@@ -46,9 +46,10 @@ const ok = (c, m) => { n++; if (!c) fallas++; console.log(`${c ? '✓' : '✗'} 
   const verdicto = await p.locator('[role=status]').innerText()
   ok(!/préstamo|consolida|aprobado|solicita/i.test(verdicto), 'verdict contains no credit offer'); await shot('07-alcanza-no')
   await p.fill('#m', '140'); await p.click('button:has-text("¿Me alcanza?")')
-  ok(await p.getByText('Cabe, pero justo.').isVisible(), '140 → fits with $134.50 left (<5%) → amber "justo", not green'); await shot('08-alcanza-justo')
-  await p.fill('#m', '100'); await p.click('button:has-text("¿Me alcanza?")')
-  ok(await p.getByText('Tu regla lo permite.').isVisible(), '100 → permite (2,675.50 ≤ 2,850)'); await shot('08b-alcanza-permite')
+  ok(await p.getByText('Cabe, pero justo.').isVisible(), '140 → fits with $134.50 left (<10%) → amber "justo", not green'); await shot('08-alcanza-justo')
+  await p.goto(URL + '/cuotas'); await p.locator('button:has-text("Quitar")').last().click()
+  await p.goto(URL + '/alcanza'); await p.fill('#m', '50'); await p.click('button:has-text("¿Me alcanza?")')
+  ok(await p.getByText('Tu regla lo permite.').isVisible(), 'Coppel paid off, 50 → green permite (2,210.50 vs 2,850, margin > 10%)'); await shot('08b-alcanza-permite')
 
   await p.goto(URL + '/regla'); await p.waitForSelector('text=Tu regla de hoy'); await p.fill('#p', '40'); await p.click('button:has-text("Guardar mi regla")')
   ok(await p.getByText('es más flexible').isVisible(), 'loosening waits for his 48 h'); await shot('09-regla-pendiente')

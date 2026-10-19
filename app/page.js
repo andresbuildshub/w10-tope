@@ -22,17 +22,17 @@ export default function Inicio() {
           <li>Nunca te ofrece un préstamo ni te manda con nadie que preste.</li>
           <li>Nunca te escribe primero: no hay notificaciones ni recordatorios.</li>
           <li>Nunca inventa una regla por ti ni te califica.</li>
-          <li>Nunca guarda tus datos en un servidor: tu regla y tus cuotas viven en este teléfono. Las capturas se mandan a leer y se borran en ese momento; nadie las guarda.</li>
+          <li>Nunca guarda tus datos en un servidor: tu regla y tus cuotas viven en este teléfono. Si usas una captura, viaja a una IA de Google solo para leerse y se borra; también puedes escribir todo a mano.</li>
           <li>Si no está seguro, no te dice que sí.</li>
         </ul>
       </section>
 
       {e && (
         <section className="space-y-3">
-          <Paso n="1" listo={!!regla} titulo="Escribe tu regla" href="/regla"
+          <Paso n="1" listo={lineas.length > 0 && lineas.every(l => l.confirmada)} titulo="Anota lo que ya debes" href="/cuotas"
+            texto={lineas.length ? `${lineas.length} cuota${lineas.length > 1 ? 's' : ''}: ${pesos(v?.actual)} en tu quincena más pesada${v?.pctActual != null ? ` (${v.pctActual}% de tu quincena)` : ''}.${lineas.some(l => !l.confirmada) ? ' Hay datos sin confirmar.' : ''}` : 'Primero mira cuánto ya pagas: con una captura o a mano.'} />
+          <Paso n="2" listo={!!regla} titulo="Escribe tu regla" href="/regla"
             texto={regla ? `Tu tope: ${regla.topePct}% de ${pesos(regla.quincena)} = ${pesos(regla.quincena * regla.topePct / 100)} por quincena.` : 'Un domingo tranquilo, no a las 11 de la noche.'} />
-          <Paso n="2" listo={lineas.length > 0 && lineas.every(l => l.confirmada)} titulo="Anota lo que ya debes" href="/cuotas"
-            texto={lineas.length ? `${lineas.length} cuota${lineas.length > 1 ? 's' : ''}: ${pesos(v?.actual)} por quincena${v?.pctActual != null ? ` (${v.pctActual}% de tu quincena)` : ''}.${lineas.some(l => !l.confirmada) ? ' Hay datos sin confirmar.' : ''}` : 'Con una captura de pantalla o a mano.'} />
           <Paso n="3" listo={false} titulo="Pregunta antes de darle al botón" href="/alcanza" texto="¿Me alcanza esta cuota nueva?" />
         </section>
       )}

@@ -67,7 +67,8 @@ function Respuesta({ v, regla, pagos, monto, lineas }) {
       </dl>
       <p className="mt-3 font-bold">{no ? `Te pasarías por ${pesos(v.conOferta - v.limite)} cada quincena.` : `Te quedarían ${pesos(v.limite - v.conOferta)} antes de tu tope.`}</p>
       {pagos && <p className="mt-1 text-sm text-tinta">En total serían {pagos} pagos de {pesos(monto)}: {pesos(monto * pagos)}.</p>}
-      {terminan.length > 0 && <div className="mt-3 text-sm text-tinta"><p className="font-semibold">Lo que termina primero, según tus cuotas:</p><ul className="list-disc pl-5">{terminan.map(t => <li key={t.prestamista}>{t.prestamista}: en ≈{t.quincenas} quincena{t.quincenas > 1 ? 's' : ''} (libera {pesos(t.libera)})</li>)}</ul></div>}
+      {terminan.length > 0 && <div className="mt-3 text-sm text-tinta"><p className="font-semibold">Lo que termina primero, según tus cuotas:</p><ul className="list-disc pl-5">{terminan.map(t => <li key={t.prestamista}>{t.prestamista}: termina en ≈{t.quincenas} quincena{t.quincenas > 1 ? 's' : ''}</li>)}</ul></div>}
+      {!no && <p className="mt-2 text-xs text-tinta">{v.justo ? 'Amarillo = te quedaría menos del 10% de tu tope.' : 'Verde = te queda más del 10% de tu tope.'}</p>}
       <p className="mt-3 text-xs text-tinta">Calculado con tu regla y tus cuotas confirmadas, sin IA. Tope no sabe si la compra vale la pena: eso lo decides tú.</p>
     </section>
   )

@@ -15,7 +15,7 @@ export default function Como() {
         </ol></section>
 
       <section><h2 className="text-lg font-bold">Qué pasa con tus capturas</h2>
-        <p>Se mandan a leer a un servidor, se leen en ese momento y se descartan. No se guardan, ni las lee una persona.</p></section>
+        <p>Viajan a una IA de Google (Gemini) solo para leerse, en ese momento, y se descartan. No se guardan ni las lee una persona. Si prefieres, escribe tus cuotas a mano: funciona igual.</p></section>
 
       <section><h2 className="text-lg font-bold">Por qué existe</h2>
         <p>En México el crédito aparece en el botón de pagar, en quincenas, ofrecido por la misma empresa que te vende. Cada cuota se ve chica; la suma no. Nadie fuera del prestamista ve todas tus cuotas en el momento de decidir: la ley que permitiría juntar esos datos (artículo 76 de la Ley Fintech, 2018) todavía no tiene sus reglas para datos transaccionales. Por eso aquí los datos los traes tú.</p></section>
@@ -34,6 +34,7 @@ export default function Como() {
       <section><h2 className="text-lg font-bold">Lo que todavía no está resuelto</h2>
         <ul className="list-disc pl-5">
           <li><b>Quién paga.</b> Esta versión es gratuita y de clase. Si un día cobra, será igual si la respuesta es sí o no, y nunca por cuenta de una tienda o un prestamista.</li>
+          <li><b>Borrar todo.</b> Borra también tu regla, aunque tengas una espera elegida. Tope no puede impedirlo y no lo va a intentar: borrar tus datos en un toque vale más.</li>
           <li><b>Las 11 de la noche.</b> Tope no te protege de ti mismo si no le preguntas. Es a propósito: una app que te vigila la pantalla o te manda avisos para &ldquo;ayudarte&rdquo; es exactamente lo que no queremos ser.</li>
           <li><b>Formatos.</b> Cada app muestra sus cuotas distinto; la lectura puede fallar. Por eso nada cuenta sin tu confirmación.</li>
         </ul></section>

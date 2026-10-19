@@ -22,11 +22,13 @@ export default function Regla() {
     ev.preventDefault()
     if (!valido) return
     const nueva = { quincena: q, topePct: p, texto: f.texto.trim().slice(0, 200), retrasoH: f.retrasoH }
+    const pcts = (nueva.texto.match(/(\d{1,2})\s*%/g) || []).map(x => parseInt(x))
+    const choca = pcts.length && !pcts.includes(nueva.topePct)
     const nuevoEstado = guardarRegla(e, nueva)
     guardar(nuevoEstado)
     setMsg(nuevoEstado.pendiente
       ? `Tu regla nueva es más flexible, así que empieza el ${fecha(nuevoEstado.pendiente.aplicaDesde)} (tú elegiste esperar ${vigente.retrasoH} horas). Hasta entonces contesta tu regla actual`
-      : 'Listo. Desde ahora Tope contesta con esta regla.')
+      : 'Listo. Desde ahora Tope contesta con esta regla.') + (choca ? ` Ojo: tu frase dice ${pcts[0]}% y tu número dice ${nueva.topePct}%. Tope contesta con el número; cambia tu frase para que digan lo mismo.` : '')
   }
 
   return (
@@ -62,7 +64,7 @@ export default function Regla() {
           <p className="mt-1 text-xs text-neutral-600">{f.texto.length}/200 · Tope te la cita tal cual, pero contesta con el número de arriba: que digan lo mismo.</p>
         </div>
         <fieldset>
-          <legend className="font-semibold">Si después quieres subir tu tope (o tu quincena), ¿cuántas horas tarda en contar el cambio?</legend>
+          <legend className="font-semibold">Si un día quieres aflojar tu regla, ¿cuánto esperas antes de que cuente?</legend>
           <div className="mt-2 grid grid-cols-4 gap-2">
             {RETRASOS.map(h => (
               <label key={h} className={`flex min-h-12 cursor-pointer items-center justify-center rounded-xl border-2 font-bold ${f.retrasoH === h ? 'border-noche bg-noche text-white' : 'border-[#b9b2a2] bg-white'}`}>
@@ -70,7 +72,7 @@ export default function Regla() {
               </label>
             ))}
           </div>
-          <p className="mt-1 text-xs text-neutral-600">Tú eliges, incluso &ldquo;nada&rdquo;. Bajar tu tope siempre aplica de inmediato. Si usas &ldquo;Borrar todo&rdquo;, tu regla también se va: Tope no puede impedirlo y no lo va a intentar.</p>
+          <p className="mt-1 text-xs text-neutral-600">Tú eliges, incluso &ldquo;nada&rdquo;. Aflojar = subir tu porcentaje, subir tu quincena o acortar esta espera. Apretar aplica de inmediato.</p>
         </fieldset>
         <button className="boton w-full" disabled={!valido}>Guardar mi regla</button>
         {!valido && <p className="text-sm">Falta: {[!okQ && 'tu quincena (desde $500)', !okP && 'tu porcentaje (1 a 90)', !okR && 'cuántas horas esperar'].filter(Boolean).join(' · ')}</p>}

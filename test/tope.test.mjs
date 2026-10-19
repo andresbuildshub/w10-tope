@@ -19,7 +19,7 @@ test('verdict uses the MOST LOADED quincena (monthly lands whole), exactly at th
   assert.equal(veredicto({ regla, lineas, oferta: { monto: 76, frecuencia: 'quincenal' } }).tipo, 'no')
   const v = veredicto({ regla, lineas, oferta: { monto: 50, frecuencia: 'quincenal' } })
   assert.equal(v.actual, 2300); assert.equal(v.promedio, 1550); assert.equal(v.conOferta, 2350); assert.equal(v.justo, true)
-  assert.equal(veredicto({ regla: { ...regla, topePct: 40 }, lineas, oferta: { monto: 50, frecuencia: 'quincenal' } }).justo, false)
+  assert.equal(veredicto({ regla: { ...regla, topePct: 40 }, lineas, oferta: { monto: 50, frecuencia: 'quincenal' } }).justo, false) // 3800 cap, 1450 margin
   assert.equal(porQuincena(200, 'semanal', 'peor'), 600)
 })
 

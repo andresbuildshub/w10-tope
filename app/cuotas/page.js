@@ -62,7 +62,7 @@ export default function Cuotas() {
         <p className="text-sm font-semibold uppercase text-neutral-600">Lo que ya pagas</p>
         <p className="text-3xl font-extrabold">{pesos(v.actual)} <span className="text-base font-semibold">en tu quincena más cargada</span></p>
         <p className="text-sm">(En promedio {pesos(v.promedio)}. Los pagos mensuales caen completos en una de tus dos quincenas, por eso Tope cuenta la más pesada.)</p>
-        {regla ? <p className={v.actual > v.limite ? 'font-bold text-no' : ''}>{v.pctActual}% de tu quincena. Tu tope: {regla.topePct}% ({pesos(v.limite)}).{v.actual > v.limite ? ' Ya te pasaste de tu tope en esa quincena.' : ` Te quedan ${pesos(v.limite - v.actual)}.`}</p>
+        {regla ? <p className={v.actual > v.limite ? 'font-bold text-no' : ''}>{v.pctActual}% de tu quincena. Tu tope: {regla.topePct}% ({pesos(v.limite)}).{v.actual > v.limite ? ' Ya te pasaste de tu tope en esa quincena.' : ` Te quedan ${pesos(v.limite - v.actual)} antes de tu tope.`}</p>
           : <p><Link className="liga" href="/regla">Escribe tu regla</Link> para ver qué parte de tu quincena es.</p>}
         {e.lineas.some(l => !l.confirmada) && <p className="mt-1 font-semibold text-nose">Hay cuotas sin confirmar: no cuentan en la suma y Tope te va a contestar &ldquo;No sé&rdquo; hasta que las revises.</p>}
       </section>
@@ -92,7 +92,7 @@ export default function Cuotas() {
             {leyendo ? 'Leyendo la captura…' : '📷 Subir captura de la app'}
             <input type="file" accept="image/png,image/jpeg,image/webp" className="sr-only" disabled={leyendo} onChange={ev => ev.target.files?.[0] && leer(ev.target.files[0])} />
           </label>
-          <p className="text-sm">La captura se lee y se descarta: no se guarda en ningún lado. Solo se sacan 4 datos: quién te cobra, cuánto por pago, cada cuánto y cuántos pagos faltan.</p>
+          <p className="text-sm">La captura viaja a una IA de Google (Gemini) solo para leer 4 datos: quién te cobra, cuánto por pago, cada cuánto y cuántos pagos faltan. Luego se borra; no se guarda en ningún lado. Si quieres, tapa tu nombre antes, o escríbela a mano.</p>
           <button className="boton boton-sec w-full" onClick={() => setBorrador({ ...VACIA })}>✍️ Escribirla a mano</button>
           <details className="text-sm">
             <summary className="cursor-pointer font-semibold">¿Sin capturas? Prueba con una de demostración</summary>
@@ -127,7 +127,7 @@ export default function Cuotas() {
                 guardar({ ...e, lineas: ls }); setBorrador(null); setAviso(null)
               } else agregar(true)
             }}>Confirmo estos datos</button>
-            {borrador.origen === 'captura' && borrador.editando === undefined && <button className="boton boton-sec" disabled={!borradorValido} onClick={() => agregar(false)}>Guardar sin confirmar (no cuenta hasta que lo revises)</button>}
+            {borrador.origen === 'captura' && borrador.editando === undefined && <button className="liga text-sm" disabled={!borradorValido} onClick={() => agregar(false)}>Guardar para revisar después (no cuenta hasta entonces)</button>}
             <button className="liga" onClick={() => { setBorrador(null); setAviso(null) }}>Cancelar</button>
           </div>
         </section>

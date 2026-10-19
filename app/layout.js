@@ -23,8 +23,8 @@ export default function RootLayout({ children }) {
         <main className="mx-auto max-w-xl px-4 py-5">{children}</main>
         <footer className="mx-auto max-w-xl border-t border-arena px-4 pb-10 pt-4 text-sm text-neutral-700">
           <div className="mb-3"><Borrar /></div>
-          <p className="mb-2"><Link className="liga" href="/como">Cómo funciona y qué no hace</Link> · <Link className="liga" href="/metrica">¿Está funcionando? (Buró)</Link></p>
-          <p className="text-xs">Proyecto de clase (Crystal Ball Studio, semana 10). No es un servicio financiero, no presta, no recomienda y no guarda nada en un servidor: tu regla y tus cuotas viven solo en este teléfono.</p>
+          <p className="mb-2"><Link className="liga" href="/como">Cómo funciona y qué no hace</Link> · <Link className="liga" href="/metrica">¿Está funcionando? (mi métrica)</Link></p>
+          <p className="text-xs">Proyecto de clase (Crystal Ball Studio, semana 10). No es un servicio financiero, no presta, no recomienda y no guarda nada en un servidor: tu regla y tus cuotas viven solo en este teléfono. Si este proyecto desaparece, tus datos siguen solo ahí.</p>
         </footer>
       </body>
     </html>
